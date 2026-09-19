@@ -1,0 +1,1 @@
+import { NextResponse } from 'next/server'; import { refreshCatalog } from '../../../../lib/refresh'; export async function POST(req){if(req.headers.get('x-admin-secret')!==process.env.ADMIN_SECRET)return NextResponse.json({error:'Unauthorized'},{status:401});return NextResponse.json(await refreshCatalog())}

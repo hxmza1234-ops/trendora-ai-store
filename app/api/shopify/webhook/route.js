@@ -1,0 +1,2 @@
+import crypto from 'crypto'; import { NextResponse } from 'next/server';
+export async function POST(req){const raw=await req.text();const got=req.headers.get('x-shopify-hmac-sha256')||'';const expected=crypto.createHmac('sha256',process.env.SHOPIFY_WEBHOOK_SECRET||'').update(raw,'utf8').digest('base64');const valid=got.length===expected.length&&crypto.timingSafeEqual(Buffer.from(got),Buffer.from(expected));if(!valid)return NextResponse.json({error:'Invalid signature'},{status:401});return NextResponse.json({received:true})}
