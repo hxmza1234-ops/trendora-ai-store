@@ -221,6 +221,11 @@ export default function Home() {
         <p>
           As an Amazon Associate I earn from qualifying purchases.
         </p>
+            <div className="footerLinks">
+  <a href="/privacy">Privacy Policy</a>
+  <a href="/terms">Terms of Use</a>
+  <a href="/contact">Contact</a>
+</div>
       </footer>
     </>
   );
