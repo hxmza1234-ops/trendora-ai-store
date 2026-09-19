@@ -41,8 +41,7 @@ export default function ContactPage() {
 
             <a
               className="primary"
-              href="mailto:trendorarahq@gmail.com
-            >
+href="mailto:trendorahq@gmail.com"            >
               Send an email
             </a>
           </div>
