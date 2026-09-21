@@ -6,6 +6,7 @@ export default function Admin() {
   const [s, setS] = useState({});
   const [key, setKey] = useState('');
   const [msg, setMsg] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const [product, setProduct] = useState({
     title: '',
@@ -26,6 +27,53 @@ export default function Admin() {
   useEffect(() => {
     load();
   }, []);
+
+  async function uploadImage(e) {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    if (!key) {
+      setMsg('Enter your admin secret before uploading an image');
+      e.target.value = '';
+      return;
+    }
+
+    setUploading(true);
+    setMsg('Uploading image…');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const r = await fetch('/api/admin/upload', {
+        method: 'POST',
+        headers: {
+          'x-admin-secret': key
+        },
+        body: formData
+      });
+
+      const data = await r.json();
+
+      if (!r.ok) {
+        setMsg(data.error || 'Image upload failed');
+        setUploading(false);
+        return;
+      }
+
+      setProduct((current) => ({
+        ...current,
+        image: data.url
+      }));
+
+      setMsg('Image uploaded successfully');
+    } catch {
+      setMsg('Image upload failed');
+    }
+
+    setUploading(false);
+  }
 
   async function seedCatalog() {
     setMsg('Seeding catalog…');
@@ -182,13 +230,34 @@ export default function Admin() {
             }
           />
 
-          <input
-            placeholder="Image URL"
-            value={product.image}
-            onChange={(e) =>
-              setProduct({ ...product, image: e.target.value })
-            }
-          />
+          <div>
+            <p>Product image</p>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={uploadImage}
+              disabled={uploading}
+            />
+
+            {uploading && <p>Uploading…</p>}
+
+            {product.image && (
+              <div>
+                <p>✓ Image ready</p>
+                <img
+                  src={product.image}
+                  alt="Product preview"
+                  style={{
+                    width: '140px',
+                    height: '140px',
+                    objectFit: 'cover',
+                    borderRadius: '12px'
+                  }}
+                />
+              </div>
+            )}
+          </div>
 
           <input
             placeholder="Amazon affiliate link"
@@ -206,7 +275,11 @@ export default function Admin() {
             }
           />
 
-          <button className="primary" type="submit">
+          <button
+            className="primary"
+            type="submit"
+            disabled={uploading}
+          >
             Add product
           </button>
         </form>
