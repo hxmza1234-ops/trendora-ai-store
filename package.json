@@ -1,1 +1,18 @@
-{"name":"trendora-ai-store","version":"2.0.0","private":true,"scripts":{"dev":"next dev","build":"next build","start":"next start"},"dependencies":{"@neondatabase/serverless":"latest","next":"latest","react":"latest","react-dom":"latest"},"devDependencies":{}}
+{
+  "name": "trendora-ai-store",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "latest",
+    "@vercel/blob": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {}
+}
