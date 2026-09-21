@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { saveProducts } from '../../../../../lib/store';
-import { demoProducts } from '../../../../../lib/demo';
+import { saveProducts } from '../../../../lib/store';
+import { demoProducts } from '../../../../lib/demo';
 
 export async function POST(req) {
   if (
